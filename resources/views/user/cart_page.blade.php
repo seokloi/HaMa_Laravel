@@ -19,7 +19,8 @@
           @include('user.another.hotproduct_list')
         </div>
         <div class="col-sm-8 col-lg-9 mtb_20">
-          <form enctype="multipart/form-data" method="post" action="#">
+          <form enctype="multipart/form-data" method="post" action="cart_page">
+          @csrf
             <div class="table-responsive">
               <table class="table table-bordered">
                 <thead>
@@ -29,23 +30,11 @@
                     <td class="text-center">Thông Số</td>
                     <td class="text-left">Số Lượng</td>
                     <td class="text-right">Đơn Giá</td>
-                    <td class="text-right">Số Tiền</td>
+                    <td class="text-right">Thành Tiền</td>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-				  		$thanhtien = 0 ;
-						$tongtien = 0;
-						$phiship = 0;
-						$tongthanhtoan = 0;
-				  ?>
                   @foreach(getGioHang() as $item)
-                  <?php 
-						$thanhtien = getGiaSale($item->ct_sp->sanpham->Gia,$item->ct_sp->sanpham->Sale) * $item->SoLuong ;
-						$tongtien = $tongtien+$thanhtien;
-						$phiship = 30000;
-						$tongthanhtoan = $tongtien + $phiship;
-				  ?>
                   <tr>
                     <td class="text-center"><a href="product?IDSP={{$item->ct_sp->IDSP}}"><img src="user/images/product/{{$item->ct_sp->sanpham->HinhChinh}}" alt="{{$item->ct_sp->sanpham->TenSanPham}}" title="{{$item->ct_sp->sanpham->TenSanPham}}"></a></td>
                     <td class="text-left"><a href="product?IDSP={{$item->ct_sp->IDSP}}">{{$item->ct_sp->sanpham->TenSanPham}}</a></td>
@@ -54,8 +43,9 @@
                       <div style="max-width: 200px;" class="input-group btn-block">
                         <input type="text" class="form-control quantity" size="1" value="{{$item->SoLuong}}" name="quantity">
                         <span class="input-group-btn">
+                      <input type="hidden" name="IDGH" id="IDGH" value="{{$item->IDGH}}">
                       <button class="btn" title="" data-toggle="tooltip" type="submit" data-original-title="Update"><i class="fa fa-refresh"></i></button>
-                      <button  class="btn btn-danger" title="" data-toggle="tooltip" type="button" data-original-title="Remove"><i class="fa fa-times-circle"></i></button>
+                      <button class="btn btn-danger" title="" data-toggle="tooltip" type="button" data-original-title="Remove" onclick="window.location.href = 'xoagiohang?IDGH={{$item->IDGH}}'"><i class="fa fa-times-circle"></i></button>
                       </span></div>
                     </td>
                     <td class="text-right">
@@ -66,7 +56,7 @@
                     @if($item->ct_sp->sanpham->Sale > 0)
                     <span class="cart_sale"><br>Sale:{{$item->ct_sp->sanpham->Sale}}%</span>
                     @endif</td>
-                    <td class="text-right">{{$thanhtien}}</td>
+                    <td class="text-right">{{getThanhTien($item)}}</td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -96,24 +86,35 @@
                 <tbody>
                   <tr>
                     <td class="text-right"><strong>Tổng tiền:</strong></td>
-                    <td class="text-right">{{$tongtien}} VNĐ</td>
+                    <td class="text-right">{{getTongTien()}} VNĐ</td>
                   </tr>
                   <tr>
                     <td class="text-right"><strong>Phí ship:</strong></td>
-                    <td class="text-right">{{$phiship}} VNĐ</td>
+                    <td class="text-right">{{getPhiShip()}} VNĐ</td>
                   </tr>
                   <tr>
                     <td class="text-right"><strong>Voucher:</strong></td>
-                    <td class="text-right">20%</td>
+                    <td class="text-right">0%</td>
                   </tr>
                   <tr>
                     <td class="text-right"><strong>Tổng thanh toán:</strong></td>
-                    <td class="text-right">{{$tongthanhtoan}} VNĐ</td>
+                    <td class="text-right">{{getTongThanhToan()}} VNĐ</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          @if(count($errors) > 0)
+                                @foreach($errors->all() as $err)
+                                    <script>alert('{{$err}}');</script>
+                                @endforeach
+                        @endif
+                        @if(session('loi'))
+                                <script>alert("{{session('loi')}}");</script>
+                        @endif
+                        @if(session('thongbao'))
+                            <script>alert("{{session('thongbao')}}");</script>
+                        @endif
           <form action="">
           	<a href="shop">
             <input class="btn pull-left mt_30" type="button" value="Tiếp tục shoppiing" />

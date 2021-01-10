@@ -39,10 +39,10 @@
             <div class="col-md-6 prodetail caption product-thumb">
               <h4 data-name="product_name" class="product-name">{{$sanpham->TenSanPham}}</h4>
               <div class="rating"> 
-                          	  @for ($i = 0; $i < $item->DanhGia; $i++)
+                          	  @for ($i = 0; $i < $sanpham->DanhGia; $i++)
                               <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-1x"></i></span>
                               @endfor
-                              @for ($i = 0; $i < 5 - $item->DanhGia; $i++)
+                              @for ($i = 0; $i < 5 - $sanpham->DanhGia; $i++)
                               <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i><i class="fa fa-star fa-stack-x"></i></span>
                               @endfor
               </div>
@@ -61,28 +61,46 @@
               <hr>
               <p class="product-desc mb_20"></p>
               <div id="product">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="Sort-by col-md-6">
-                      <label>Loại</label>
-                      <select name="product_size" id="select-by-size" class="selectpicker form-control">
-                        @foreach($sanpham->ct_sp as $item)
-                            <option>@if(isset($item->size->Size)){{$item->size->Size}}@endif
-                            @if(isset($item->size->Size)&&isset($item->mau->Mau)),@endif
-                            @if(isset($item->mau->Mau)){{$item->mau->Mau}}@endif</option>
-                        @endforeach
-                      </select>
+                <form action="product?IDSP={{$sanpham->IDSP}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="Sort-by col-md-6">
+                          <label>Loại</label>
+                          <select name="product_size" id="select-by-size" class="selectpicker form-control">
+                            @foreach($sanpham->ct_sp as $item)
+                                <option value="{{$item->IDCTSP}}">@if(isset($item->size->Size)){{$item->size->Size}}@endif
+                                @if(isset($item->size->Size)&&isset($item->mau->Mau)),@endif
+                                @if(isset($item->mau->Mau)){{$item->mau->Mau}}@endif</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="qty col-md-6 form-group2">
+                          <label>Số lượng</label>
+                          <input name="product_quantity" min="1" value="1" type="number">
+                        </div>
+                      </div>
                     </div>
-                    <div class="qty col-md-6 form-group2">
-                      <label>Số lượng</label>
-                      <input name="product_quantity" min="1" value="1" type="number">
+                    <div class="button-group mt_30">
+                      @if(isset($thongtindangnhap))
+                      <input type="submit" name="sm_order" value="" class="add-to-cart">
+                      @else
+                      <div class="add-to-cart" onclick="window.location.href = 'login'"><a href="postGioHang()"><span>Add to cart</span></a></div>
+                      @endif
+
+                        @if(count($errors) > 0)
+                                @foreach($errors->all() as $err)
+                                    <script>alert('{{$err}}');</script>
+                                @endforeach
+                        @endif
+                        @if(session('loi'))
+                                <script>alert("{{session('loi')}}");</script>
+                        @endif
+                        @if(session('thongbao'))
+                            <script>alert("{{session('thongbao')}}");</script>
+                        @endif
                     </div>
-                  </div>
-                </div>
-                <div class="button-group mt_30">
-                  <div class="add-to-cart"><a href="#"><span>Add to cart</span></a></div>
-                  <div class="wishlist"><a href="#"><span>wishlist</span></a></div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

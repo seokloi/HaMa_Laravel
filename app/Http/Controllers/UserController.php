@@ -5,6 +5,7 @@ use App\SanPham;
 use App\HinhSP;
 use App\User;
 use App\BaiViet;
+use App\GioHang;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 // use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,7 @@ class UserController extends Controller
             return view('user.category_page', ['sanpham'=>$sanpham]);
         }
 	}
+
 	public function ProDuct_Detail(){
 		if(isset($_REQUEST['IDSP'])){
             $sanpham = SanPham::where('IDSP',$_REQUEST['IDSP'])->where('Hidden', '<>' , 1)->first();
@@ -40,6 +42,52 @@ class UserController extends Controller
             return view('user.product_detail_page', ['sanpham'=>$sanpham, 'hinhsp'=>$hinhsp]);
         }else return 0;
 	}
+    function postGioHang(Request $request){
+        $this->validate($request,
+        [
+            'product_size'=>'required',
+            'product_quantity'=>'required'
+        ],[
+            'product_size.required'=>'Bạn chưa chọn sản phẩm',
+            'product_quantity.required'=>'Bạn chưa nhập số lượng'
+        ]);
+        if (ThemGioHang($request->product_size) == 1)
+        {
+        return redirect('product?IDSP='.$_REQUEST['IDSP'])->with('thongbao','Thêm thành công');
+        }
+        else
+        {
+        $giohang = new GioHang;
+        $giohang->IDCTSP = $request->product_size;
+		$giohang->SoLuong = $request->product_quantity;
+        $giohang->IDND = Auth::user()->id;
+		$giohang->save();
+        return redirect('product?IDSP='.$_REQUEST['IDSP'])->with('thongbao','Thêm thành công');
+        }
+    }
+    public function getXoaGioHang(){
+		if (isset($_REQUEST['IDGH']))
+		{
+            $giohang = GioHang::where('IDGH',$_REQUEST['IDGH'])->first();
+            $giohang->where('IDGH',$_REQUEST['IDGH'])->delete();
+        }
+		return redirect('cart_page');
+    }
+    public function PostCart(Request $request){
+        $this->validate($request,
+        [
+            'quantity'=>'required',
+            'IDGH'=>'required'
+        ],[
+            'quantity.required'=>'Bạn chưa nhập số lượng',
+            'IDGH.required'=>'Bạn chưa chọn sản phẩm'
+        ]);
+        $giohang = GioHang::where('IDGH',$request->IDGH)
+		->update([
+				'SoLuong' => $request->quantity
+				]);
+        return redirect('cart_page')->with('thongbao',$request->quantity);
+    }
 	
 	public function Blog(){
     
@@ -68,8 +116,6 @@ class UserController extends Controller
 	
 	public function Cart(){
 		return view('user.cart_page');
-	}
-	public function PostCart(){	
 	}
 	public function CheckOut(){
 		return view('user.checkout_page');

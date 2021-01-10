@@ -10,8 +10,7 @@
                     <div class="product-thumb">
                       <div class="image product-imageblock"><img src="user/images/product/{{$item->HinhChinh}}" style="width:300px;height:200px;" alt="{{$item->TenSanPham}}" title="{{$item->TenSanPham}}" class="img-responsive" onClick="window.location.href = 'product?IDSP={{$item->IDSP}}'">
                         <div class="button-group text-center">
-                          <div class="wishlist"><a href="#"><span>wishlist</span></a></div>
-                          <div class="add-to-cart"><a href="#"><span>Add to cart</span></a></div>
+                            <div class="add-to-cart" onClick="window.location.href = 'product?IDSP={{$item->IDSP}}'"><span>Add to cart</span></div>
                         </div>
                         @if($item->Sale > 0)
                         <div class="sale">{{$item->Sale}}%</div>

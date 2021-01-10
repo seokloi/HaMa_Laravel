@@ -26,19 +26,7 @@
                   <li>
                     <table class="table table-striped">
                       <tbody>
-                      	<?php
-				  		$thanhtien = 0 ;
-						$tongtien = 0;
-						$phiship = 0;
-						$tongthanhtoan = 0;
-				  		?>
                         @foreach(getGioHang() as $item)
-                        <?php 
-						$thanhtien = getGiaSale($item->ct_sp->sanpham->Gia,$item->ct_sp->sanpham->Sale) * $item->SoLuong ;
-						$tongtien = $tongtien+$thanhtien;
-						$phiship = 30000;
-						$tongthanhtoan = $tongtien + $phiship;
-						?>
                         <tr>
                           <td class="text-center" width="100px"><a href="product?IDSP={{$item->ct_sp->IDSP}}"><img src="user/images/product/{{$item->ct_sp->sanpham->HinhChinh}}" alt="{{$item->ct_sp->sanpham->TenSanPham}}" title="{{$item->ct_sp->sanpham->TenSanPham}}">
                           </td>
@@ -50,7 +38,7 @@
                               <span class="cart_sale">Sale:{{$item->ct_sp->sanpham->Sale}}%</span>
                               @endif
                           </span>
-                            <input class="cart-qty" name="product_quantity" min="1" value="{{$item->SoLuong}}" type="number">
+                            <input class="cart-qty" name="product_quantity" min="1" value="{{$item->SoLuong}}" type="number"> Thành tiền: {{getThanhTien($item)}}
                           </td>
                           <td class="text-center"><a class="close-cart"><i class="fa fa-times-circle"></i></a></td>
                         </tr>
@@ -63,19 +51,19 @@
                       <tbody>
                         <tr>
                           <td class="text-right"><strong>Tổng tiền</strong></td>
-                          <td class="text-right">{{$tongtien}}</td>
+                          <td class="text-right">{{getTongTien()}}</td>
                         </tr>
                         <tr>
                           <td class="text-right"><strong>Phí ship</strong></td>
-                          <td class="text-right">{{$phiship}}</td>
+                          <td class="text-right">{{getPhiShip()}}</td>
                         </tr>
                         <tr>
                           <td class="text-right"><strong>Voucher</strong></td>
-                          <td class="text-right">20%</td>
+                          <td class="text-right">0%</td>
                         </tr>
                         <tr>
                           <td class="text-right"><strong>Tổng thanh toán</strong></td>
-                          <td class="text-right">{{$tongthanhtoan}}</td>
+                          <td class="text-right">{{getTongThanhToan()}}</td>
                         </tr>
                       </tbody>
                     </table>

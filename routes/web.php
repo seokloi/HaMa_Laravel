@@ -22,6 +22,8 @@ Route::get('/',[UserController::class, 'Index']);
 Route::get('search',[UserController::class, 'Search']);
 Route::get('shop',[UserController::class, 'Shop']);
 Route::get('product',[UserController::class, 'Product_DeTail']);
+Route::post('product',[UserController::class, 'postGioHang']);
+Route::get('xoagiohang',[UserController::class, 'getXoaGioHang']);
 
 Route::get('blog_page',[UserController::class, 'Blog']);
 Route::get('single_blog',[UserController::class, 'Single_Blog']);
@@ -32,7 +34,7 @@ Route::post('contact_us',[UserController::class, 'PostContact_Us']);
 Route::get('contact_me',[UserController::class, 'Contact_Me']);
 
 Route::get('cart_page',[UserController::class, 'Cart'])->middleware('Userlogin');
-Route::post('cart_page',[UserController::class, 'PostCart'])->middleware('Userlogin');
+Route::post('cart_page',[UserController::class, 'PostCart']);
 Route::get('checkout_page',[UserController::class, 'CheckOut'])->middleware('Userlogin');
 
 

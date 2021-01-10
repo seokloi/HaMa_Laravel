@@ -23,6 +23,38 @@ if (!function_exists('getGioHang'))
 			return 0;
 	}
 }
+if (!function_exists('ThemGioHang'))
+{
+	function ThemGioHang($test)
+	{
+		foreach (getGioHang() as $item)
+        {
+            if ($item->IDCTSP == $test)
+            {
+               $giohang = GioHang::where('IDGH',$item->IDGH)->increment('SoLuong', 1);
+               return 1;
+            }
+        }
+        return 0;
+	}
+}
+if (!function_exists('CapNhatGioHang'))
+{
+	function CapNhatGioHang($test)
+	{
+		foreach (getGioHang() as $item)
+        {
+            if ($item->IDCTSP == $test)
+            {
+               $giohang = GioHang::where('IDGH',$item->IDGH)->increment('SoLuong', 1);
+               return 1;
+            }
+        }
+        return 0;
+	}
+}
+
+
 if (!function_exists('getTheLoai'))
 {
 	function getTheLoai()
@@ -98,5 +130,42 @@ if (!function_exists('getBlog'))
 	function getBlog()
 	{
 		return BaiViet::take(4)->get();
+	}
+}
+
+if (!function_exists('getThanhTien'))
+{
+	function getThanhTien($giohang)
+	{
+	    $thanhtien = getGiaSale($giohang->ct_sp->sanpham->Gia,$giohang->ct_sp->sanpham->Sale) * $giohang->SoLuong ;
+        return $thanhtien;
+	}
+}
+if (!function_exists('getTongTien'))
+{
+	function getTongTien()
+	{
+        $tongtien = 0;
+		foreach(getGioHang() as $item)
+        {
+			$tongtien = $tongtien+getThanhTien($item);
+        }
+        return $tongtien;
+	}
+}
+if (!function_exists('getPhiShip'))
+{
+	function getPhiShip()
+	{
+		$phiship = 30000;
+        return $phiship;
+	}
+}
+if (!function_exists('getTongThanhToan'))
+{
+	function getTongThanhToan()
+	{
+		$tongthanhtoan = getTongTien() + getPhiShip();
+		return $tongthanhtoan;
 	}
 }
