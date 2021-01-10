@@ -51,7 +51,7 @@ class UserController extends Controller
             'product_size.required'=>'Bạn chưa chọn sản phẩm',
             'product_quantity.required'=>'Bạn chưa nhập số lượng'
         ]);
-        if (ThemGioHang($request->product_size) == 1)
+        if (ThemGioHang($request->product_size,$request->product_quantity) == 1)
         {
         return redirect('product?IDSP='.$_REQUEST['IDSP'])->with('thongbao','Thêm thành công');
         }

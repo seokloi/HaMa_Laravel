@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\app",
+    "\\app\\helpers",
     "\\app\\Http",
-    "\\app\\Http\\Controllers",
     "\\resources",
     "\\resources\\views",
     "\\resources\\views\\admin",
-    "\\resources\\views\\admin\\ct_sp",
-    "\\resources\\views\\admin\\layout",
-    "\\resources\\views\\admin\\sanpham"
+    "\\resources\\views\\user",
+    "\\resources\\views\\user\\layout",
+    "\\routes"
   ],
-  "SelectedNode": "\\resources\\views\\admin\\sanpham\\danhsach.blade.php",
+  "SelectedNode": "\\app\\helpers\\helpers.php",
   "PreviewInSolutionExplorer": false
 }

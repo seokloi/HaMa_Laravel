@@ -25,13 +25,13 @@ if (!function_exists('getGioHang'))
 }
 if (!function_exists('ThemGioHang'))
 {
-	function ThemGioHang($test)
+	function ThemGioHang($test,$sl)
 	{
 		foreach (getGioHang() as $item)
         {
             if ($item->IDCTSP == $test)
             {
-               $giohang = GioHang::where('IDGH',$item->IDGH)->increment('SoLuong', 1);
+               $giohang = GioHang::where('IDGH',$item->IDGH)->increment('SoLuong', $sl);
                return 1;
             }
         }
