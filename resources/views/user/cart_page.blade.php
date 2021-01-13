@@ -19,8 +19,6 @@
           @include('user.another.hotproduct_list')
         </div>
         <div class="col-sm-8 col-lg-9 mtb_20">
-          <form enctype="multipart/form-data" method="post" action="cart_page">
-          @csrf
             <div class="table-responsive">
               <table class="table table-bordered">
                 <thead>
@@ -35,6 +33,8 @@
                 </thead>
                 <tbody>
                   @foreach(getGioHang() as $item)
+                  <form method="post" action="cart_page" enctype="multipart/form-data">
+                  @csrf
                   <tr>
                     <td class="text-center"><a href="product?IDSP={{$item->ct_sp->IDSP}}"><img src="user/images/product/{{$item->ct_sp->sanpham->HinhChinh}}" alt="{{$item->ct_sp->sanpham->TenSanPham}}" title="{{$item->ct_sp->sanpham->TenSanPham}}"></a></td>
                     <td class="text-left"><a href="product?IDSP={{$item->ct_sp->IDSP}}">{{$item->ct_sp->sanpham->TenSanPham}}</a></td>
@@ -58,11 +58,11 @@
                     @endif</td>
                     <td class="text-right">{{getThanhTien($item)}}</td>
                   </tr>
+                  </form>
                   @endforeach
                 </tbody>
               </table>
             </div>
-          </form>
           <div class="panel-group mt_20" id="accordion">
             <div class="panel panel-default pull-left">
               <div class="panel-heading">
@@ -104,17 +104,6 @@
               </table>
             </div>
           </div>
-          @if(count($errors) > 0)
-                                @foreach($errors->all() as $err)
-                                    <script>alert('{{$err}}');</script>
-                                @endforeach
-                        @endif
-                        @if(session('loi'))
-                                <script>alert("{{session('loi')}}");</script>
-                        @endif
-                        @if(session('thongbao'))
-                            <script>alert("{{session('thongbao')}}");</script>
-                        @endif
           <form action="">
           	<a href="shop">
             <input class="btn pull-left mt_30" type="button" value="Tiếp tục shoppiing" />

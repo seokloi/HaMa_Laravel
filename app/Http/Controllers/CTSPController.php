@@ -74,12 +74,35 @@ class CTSPController extends Controller
             'SoLuong.required'=>'Bạn chưa nhập số lượng',
             'SoLuong.max'=>'Số lượng không được vượt quá 5 kí tự'
         ]);
-        $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])
-		->update([
-				'IDM' => $request->Mau,
-				'IDS' => $request->Size,
-				'SoLuongTon' => $request->SoLuong
-				]);
+        if($request->Mau!= 0 && $request->Size!= 0 )
+        {
+            $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])
+		    ->update([
+                    'IDM' => $request->Mau,
+                    'IDS' => $request->Size,
+				    'SoLuongTon' => $request->SoLuong
+				    ]);
+        }else if($request->Mau!= 0 && $request->Size== 0 )
+        {
+            $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])
+		    ->update([
+                    'IDM' => $request->Mau,
+				    'SoLuongTon' => $request->SoLuong
+				    ]);
+        }else if($request->Mau== 0 && $request->Size!= 0 )
+        {
+            $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])
+		    ->update([
+                    'IDS' => $request->Size,
+				    'SoLuongTon' => $request->SoLuong
+				    ]);
+        }else
+        {
+            $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])
+		    ->update([
+				    'SoLuongTon' => $request->SoLuong
+				    ]);
+        }
         $ct_sp = CT_SP::where('IDCTSP',$_REQUEST['IDCTSP'])->first();
         return redirect('admin/ct_sp/danhsach?IDSP='.$ct_sp->IDSP)->with('thongbao', 'Thay đổi thành công');
     }

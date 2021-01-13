@@ -52,8 +52,8 @@ Route::post('admin/dangnhap',[NhanSuController::class, 'postDangNhap']);
 Route::get('admin/dangxuat',[NhanSuController::class, 'getDangXuat']);
 
 Route::group(['prefix'=>'admin','middleware'=>'adminlogin'], function(){
-    Route::get('/{id}', [NhanSuController::class, 'getDoi']);
-    Route::post('/{id}', [NhanSuController::class, 'postDoi']);
+    Route::get('{id}', [NhanSuController::class, 'getDoi']);
+    Route::post('{id}', [NhanSuController::class, 'postDoi']);
 
     Route::group(['prefix'=>'sanpham'], function(){
         Route::get('danhsach', [SanPhamController::class, 'getDanhSach']);

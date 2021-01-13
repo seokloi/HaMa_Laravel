@@ -18,20 +18,84 @@ class UserController extends Controller
 	}
 	public function Search(){
 		if(isset($_GET['search'])){
-            $sanpham = SanPham::where('TenSanPham', 'like', '%' . $_GET['search'] . '%')->where('Hidden', '<>' , 1)->paginate(12);
-            return view('user.search', ['sanpham'=>$sanpham]);
-        }else{
-            $sanpham = SanPham::where('Hidden', '<>' , 1)->paginate(12);
-            return view('user.search', ['sanpham'=>$sanpham]);
+            if(isset($_REQUEST['sort']))
+            {
+                if($_REQUEST['sort'] == 'DESC')
+                {
+                $sanpham = SanPham::where('TenSanPham', 'like', '%' . $_GET['search'] . '%')->where('Hidden', '<>' , 1)->orderByDesc('Gia')->paginate(12);
+                }
+                else
+                {
+                $sanpham = SanPham::where('TenSanPham', 'like', '%' . $_GET['search'] . '%')->where('Hidden', '<>' , 1)->orderBy('Gia')->paginate(12);
+                }
+                return view('user.search', ['sanpham'=>$sanpham]);
+            }
+            else
+            {
+                $sanpham = SanPham::where('TenSanPham', 'like', '%' . $_GET['search'] . '%')->where('Hidden', '<>' , 1)->paginate(12);
+                return view('user.search', ['sanpham'=>$sanpham]);
+            }
+        }
+        else
+        {
+            if(isset($_REQUEST['sort']))
+            {
+                if($_REQUEST['sort'] == 'DESC')
+                {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->orderByDesc('Gia')->paginate(12);
+                }
+                else
+                {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->orderBy('Gia')->paginate(12);
+                }
+                return view('user.search', ['sanpham'=>$sanpham]);
+            }
+            else
+            {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->paginate(12);
+                return view('user.search', ['sanpham'=>$sanpham]);
+            }
         }
 	}
 	public function Shop(Request $request){
 		if(isset($_REQUEST['IDTL'])){
-            $sanpham = SanPham::where('IDTL', $_REQUEST['IDTL'])->where('Hidden', '<>' , 1)->paginate(12);
-            return view('user.category_page', ['sanpham'=>$sanpham]);
-        }else{
-            $sanpham = SanPham::where('Hidden', '<>' , 1)->paginate(12);
-            return view('user.category_page', ['sanpham'=>$sanpham]);
+            if(isset($_REQUEST['sort']))
+            {
+                if($_REQUEST['sort'] == 'DESC')
+                {
+                $sanpham = SanPham::where('IDTL', $_REQUEST['IDTL'])->where('Hidden', '<>' , 1)->orderByDesc('Gia')->paginate(12);
+                }
+                else
+                {
+                $sanpham = SanPham::where('IDTL', $_REQUEST['IDTL'])->where('Hidden', '<>' , 1)->orderBy('Gia')->paginate(12);
+                }
+                return view('user.category_page', ['sanpham'=>$sanpham]);
+            }
+            else
+            {
+                $sanpham = SanPham::where('IDTL', $_REQUEST['IDTL'])->where('Hidden', '<>' , 1)->paginate(12);
+                return view('user.category_page', ['sanpham'=>$sanpham]);
+            }
+        }
+        else
+        {
+            if(isset($_REQUEST['sort']))
+            {
+                if($_REQUEST['sort'] == 'DESC')
+                {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->orderByDesc('Gia')->paginate(12);
+                }
+                else
+                {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->orderBy('Gia')->paginate(12);
+                }
+                return view('user.category_page', ['sanpham'=>$sanpham]);
+            }
+            else
+            {
+                $sanpham = SanPham::where('Hidden', '<>' , 1)->paginate(12);
+                return view('user.category_page', ['sanpham'=>$sanpham]);
+            }
         }
 	}
 
@@ -86,7 +150,7 @@ class UserController extends Controller
 		->update([
 				'SoLuong' => $request->quantity
 				]);
-        return redirect('cart_page')->with('thongbao',$request->quantity);
+        return redirect('cart_page');
     }
 	
 	public function Blog(){

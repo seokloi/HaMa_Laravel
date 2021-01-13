@@ -52,32 +52,21 @@
         </div>
         <div class="col-sm-8 col-lg-9 mtb_20">
           <div class="category-page-wrapper mb_30">
-            <div class="page-wrapper pull-right">
-              <label class="control-label" for="input-limit">Hiển thị:</label>
-              <div class="limit">
-                <select id="input-limit" class="form-control">
-                  <option value="12" selected="selected">12</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="75">75</option>
-                  <option value="100">100</option>
-                </select>
-              </div>
-              <span><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-            </div>
             <div class="sort-wrapper pull-right">
               <label class="control-label" for="input-sort">Sắp xếp :</label>
               <div class="sort-inner">
-                <select id="input-sort" class="form-control">
-                  <option value="ASC" selected="selected">Default</option>
-                  <option value="ASC">Name (A - Z)</option>
-                  <option value="DESC">Name (Z - A)</option>
-                  <option value="ASC">Price (Low &gt; High)</option>
-                  <option value="DESC">Price (High &gt; Low)</option>
-                  <option value="DESC">Rating (Highest)</option>
-                  <option value="ASC">Rating (Lowest)</option>
-                  <option value="ASC">Model (A - Z)</option>
-                  <option value="DESC">Model (Z - A)</option>
+                <select id="input-sort" class="form-control" onchange="javascript:location.href = this.value;">
+                  <option value="shop" selected="selected">Mặc định</option>
+                  @if(isset($_REQUEST['page']))
+                    <option value="shop?page={{$_REQUEST['page']}}&sort=ASC">Giá (Tăng)</option>
+                  @else
+                    <option value="shop?sort=ASC">Giá (Tăng)</option>
+                  @endif
+                  @if(isset($_REQUEST['page']))
+                    <option value="shop?page={{$_REQUEST['page']}}&sort=DESC">Giá (Giảm)</option>
+                  @else
+                    <option value="shop?sort=DESC">Giá (Giảm)</option>
+                  @endif
                 </select>
               </div>
               <span><i class="fa fa-angle-down" aria-hidden="true"></i></span>
@@ -122,7 +111,11 @@
               @if(isset($_REQUEST['IDTL']))
                 {{ $sanpham->appends(['IDTL' => $_REQUEST['IDTL'] ])->links() }}
               @else
-                {{ $sanpham->links() }}
+                @if(isset($_REQUEST['sort']))
+                    {{ $sanpham->appends(['sort' => $_REQUEST['sort'] ])->links() }}
+                @else
+                    {{ $sanpham->links() }}
+                @endif
               @endif
               <script>
                   $('.pagination a').unbind('click').on('click', function(e) {

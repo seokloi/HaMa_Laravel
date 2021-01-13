@@ -44,8 +44,8 @@ class NhanSuController extends Controller
 
     public function getDoi($id){
         $info = User::find($id);
-        if($info->Quyen == 1 || $info->Quyen == 0){
-            return redirect('admin/sach/danhsach');
+        if($info->Quyen == 0){
+            return redirect('admin/sanpham/danhsach');
         }
         return view('admin.doimatkhau', ['info'=>$info]);
     }

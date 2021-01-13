@@ -21,7 +21,7 @@
                 @if(isset($thongtindangnhap))
                 <li><a><i class="fa fa-user fa-fw"></i> {{$thongtindangnhap->TenNguoiDung}}</a>
                 </li>
-                <li><a href="admin/{{$thongtindangnhap->id}}"><i class="fa fa-gear fa-fw"></i> Đổi mật khẩu</a>
+                <li><a href="admin/{{$thongtindangnhap->id}}"><i class="fa fa-gear fa-fw"></i> Đổi mật khẩu {{$thongtindangnhap->id}}</a>
                 </li>
                 <li class="divider"></li>
                 <li><a href="admin/dangxuat"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
