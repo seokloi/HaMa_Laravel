@@ -14,4 +14,5 @@ Sử dụng Laravel, PHP
 - Màu hồng tạo sự dễ thương của sản phẩm handmade
 
 Chưa phát triển thanh toán
+
 Một số chức năng bên Admin chưa hoàn thành
